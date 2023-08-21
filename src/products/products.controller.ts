@@ -25,6 +25,5 @@ export class ProductsController {
   @Post('/')
   create(@Body() productData: CreateProductDTO) {
     return this.productService.create(productData);
-    return { success: true };
   }
 }
