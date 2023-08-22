@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
+import { ParseUUIDPipe } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -12,12 +13,12 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  getById(@Param('id') id: string) {
+  getById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.productService.getById(id);
   }
 
   @Delete('/:id')
-  deleteById(@Param('id') id: string) {
+  deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
     this.productService.deleteById(id);
     return { success: true };
   }
