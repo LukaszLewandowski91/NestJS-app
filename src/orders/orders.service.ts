@@ -11,7 +11,7 @@ export class OrdersService {
   }
 
   public deleteById(id: Order['id']): void {
-    db.orders.filter((order) => order.id !== id);
+    db.orders = db.orders.filter((order) => order.id !== id);
   }
 
   public create(orderData: Omit<Order, 'id'>) {
