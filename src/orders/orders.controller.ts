@@ -23,15 +23,17 @@ export class OrdersController {
 
   @Get('/:id')
   getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.orderService.getById(id))
+    if (!this.orderService.getById(id)) {
       throw new NotFoundException('Order not found');
+    }
     return this.orderService.getById(id);
   }
 
   @Delete('/:id')
   deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.orderService.getById(id))
+    if (!this.orderService.getById(id)) {
       throw new NotFoundException('Order not found');
+    }
     this.orderService.deleteById(id);
     return { success: true };
   }
@@ -46,8 +48,9 @@ export class OrdersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() orderData: UpdateOrderDTO,
   ) {
-    if (!this.orderService.getById(id))
+    if (!this.orderService.getById(id)) {
       throw new NotFoundException('Order not found');
+    }
     this.orderService.updateById(id, orderData);
     return { success: true };
   }
