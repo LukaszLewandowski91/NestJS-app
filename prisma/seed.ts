@@ -40,21 +40,38 @@ function getOrders() {
   return [
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17260',
-      client: 'John Doe',
-      address: '123 Main Street, London',
+      clientId: 'acdc641a-f36c-420c-afc5-81f301e0e658',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17261',
-      client: 'Jane Doe',
-      address: '123 Main Street, London',
+      clientId: 'acdc641a-f36c-420c-afc5-81f301e0e658',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17262',
-      client: 'Thomas Jefferson',
-      address: 'Baker Street 12B, New York',
+      clientId: '4940c233-1ddd-4b12-b39e-9c33af59293d',
       productId: '01c7599d-318b-4b9f-baf7-51f3a936a2d4',
+    },
+  ];
+}
+
+function getClient() {
+  return [
+    {
+      id: 'acdc641a-f36c-420c-afc5-81f301e0e658',
+      name: 'Łukasz Lewandowski',
+      address: 'Krańcowa, Poznań',
+    },
+    {
+      id: 'a5f55179-f6d9-4e6c-a2ac-7ce84a6b3490',
+      name: 'Pies Ares',
+      address: 'Buda, Poznań',
+    },
+    {
+      id: '4940c233-1ddd-4b12-b39e-9c33af59293d',
+      name: 'IronMan',
+      address: 'Avengers, USA',
     },
   ];
 }
@@ -65,14 +82,21 @@ async function seed() {
       return db.product.create({ data: product });
     }),
   );
-
   await Promise.all(
-    getOrders().map(({ productId, ...orderData }) => {
+    getClient().map((client) => {
+      return db.client.create({ data: client });
+    }),
+  );
+  await Promise.all(
+    getOrders().map(({ clientId, productId, ...orderData }) => {
       return db.order.create({
         data: {
           ...orderData,
           product: {
             connect: { id: productId },
+          },
+          client: {
+            connect: { id: clientId },
           },
         },
       });
